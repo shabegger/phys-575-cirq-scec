@@ -1,20 +1,33 @@
 import cirq
 import numpy as np
 
-def create(unitary):
+def create(unitary, p=0):
     circuit = cirq.Circuit()
 
     qIn = cirq.NamedQubit('input')
     qOut = cirq.NamedQubit('output')
 
     circuit.append(cirq.X(qOut))
+
+    circuit.append(_noise(p, qIn, qOut),
+                   strategy=cirq.InsertStrategy.NEW_THEN_INLINE)
     circuit.append([cirq.H(qIn), cirq.H(qOut)],
                    strategy=cirq.InsertStrategy.NEW_THEN_INLINE)
+
+    circuit.append(_noise(p, qIn, qOut))    
     circuit.append(unitary().on(qIn, qOut))
+
+    circuit.append(_noise(p, qIn))
     circuit.append(cirq.H(qIn))
+
     circuit.append(cirq.measure(qIn, key='result'))
 
     return circuit
+
+def _noise(p, *qubits):
+    if p > 0:
+        yield cirq.depolarize(p=p).on_each(qubits)
+        yield cirq.amplitude_damp(gamma=p).on_each(qubits)
 
 class Constant0(cirq.MatrixGate):
     def __init__(self):

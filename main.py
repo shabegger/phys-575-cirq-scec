@@ -11,7 +11,7 @@ unitaries = [
 ]
 
 for unitary in unitaries:
-    circuit = deutsch.create(unitary)
-    results = sim.simulate(circuit)
+    circuit = deutsch.create(unitary, 0.05)
+    result = sim.run(circuit, repetitions=100)
     print(circuit)
-    print(results)
+    print(result.histogram(key='result'))

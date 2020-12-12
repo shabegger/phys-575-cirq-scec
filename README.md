@@ -33,7 +33,7 @@ The surface code is a quantum computing error correcting and stabilizing code. I
 
 In the surface code, qubits can be conceived of as existing on a 2 dimensional lattice and interacting with each of their 4 nearest neighbors (or 2 or 3 neighbors on the boundary), though this is not necessarily a physical requirement of the system. However, the code is well suited to architectures that do adhere to this geometry, such as many superconducting processors.
 
-Here, we implement a surface code on a grid, placing qubits at vertices, as in the below figure displaying a D = 3 code.
+Here, we implement a surface code on a grid, placing qubits at vertices, as in the below figure displaying a `D = 3` code.
 
 ![D=3 Qubit Grid](./d_3_background.svg)
 
@@ -41,9 +41,9 @@ Here the white qubits represent data qubits. Together, these qubits represent th
 
 ![D=3 Qubit Grid](./d_3.svg)
 
-The code is implemented to support an arbitrary distance D, where the logical qubit is composed of DxD data qubits. A surface code must contain N = D^2 data qubits and N - 1 = D^2 - 1 measurement qubits. The measurement qubits are measured periodically, stabilizing the qubit by projecting onto a particular state. Furthermore, these measurements are used to determine and address an error syndrome. Due to these measurements, the logical qubit must contain one more data qubit than measurement qubits to maintain the necessary 2 degrees of freedom required by a logical qubit.
+The code is implemented to support an arbitrary distance D, where the logical qubit is composed of DxD data qubits. A surface code must contain `N = D^2` data qubits and `N - 1 = D^2 - 1` measurement qubits. The measurement qubits are measured periodically, stabilizing the qubit by projecting onto a particular state. Furthermore, these measurements are used to determine and address an error syndrome. Due to these measurements, the logical qubit must contain one more data qubit than measurement qubits to maintain the necessary 2 degrees of freedom required by a logical qubit.
 
-While this code does support arbitrary distance D, the built-in Cirq simulator was capable of running the circuit with no more than distance D = 2 on my home computer, so this is what was used for testing and demonstration.
+While this code does support arbitrary distance D, the built-in Cirq simulator was capable of running the circuit with no more than distance `D = 2` on my home computer, so this is what was used for testing and demonstration.
 
 ## Demonstration
 
@@ -67,7 +67,7 @@ Simple Qubit: ───X───M───
 
 ### `printX()`
 
-This function creates the D = 2 circuit with a few specialized details excluded to show better show the essence of the program. It outputs the circuit for a logical `X` operation followed by stabilizing syndrome measurements:
+This function creates the `D = 2` circuit with a few specialized details excluded to show better show the essence of the program. It outputs the circuit for a logical `X` operation followed by stabilizing syndrome measurements:
 
 ```
 (1, 2): ───X───────────@──────────────────────────────────────X──────────────────────────────────
@@ -124,6 +124,12 @@ Correct Measurements: 80
 ```
 
 With 4 data qubits at `p = 0.05`, this error rate seems reasonable. We are able to map `100 - 19 = 81` logical states. The logical state measurements and errors don't necessarily have to add to `100` if there are certain types of overlapping errors. However, with `p = 0.05`, the probability of overlapping errors is small. However, we can see that on one occassion we did receive an overlapping error which, while it did map to a logical state, it incorrectly mapped to the `0` logical state.
+
+In the `D = 2` case, we can determine a logical state with the following identities.
+
+![D = 2 Logical States](./4qubit_state.svg)
+
+This makes it simple for our test case applying a single `X` to determine the final result. In general, we would have to be more clever to make a final measurement. Obviously, this does not cover all possible 4-qubit measurements. However, those that don't conform will necessarily have suffered errors.
 
 In general, we should be able to correct errors that we find. However, since each measurement qubit is connected to multiple data qubits, this generally requires multiple syndrome measurements from separate measurement qubits to disambiguate the offending qubit. With `D = 2` we only have one syndrome measurement qubit for each data qubit, so this is not possible.
 

@@ -85,6 +85,42 @@ This function creates the D = 2 circuit with a few specialized details excluded 
 
 Here you can see the `(i, j)` indices used by Cirq on the left side. The measurements use a custom naming scheme using the `(x, y)` indices and prefixes `MX` and `MZ` to indicate syndrome measurements.
 
+### `simulateSimpleX()`
+
+This function simply runs the simple Cirq circuit from above. Qubits are initialized in the `0` state, so as expected the bit flip results in a measured `1` state:
+
+```
+Simple Qubit=1
+```
+
+### `simulateXNoErrors()`
+
+The demonstration is capable of injecting depolarizing errors that apply a random Pauli gate with probability `p` on each qubit. This function runs the simulation once with `p = 0`.
+
+```
+D_(0, 0)=1
+D_(0, 1)=1
+D_(1, 0)=0
+D_(1, 1)=0
+MX_(1, 1)_1=0
+MZ_(0, 1)_1=0
+MZ_(2, 1)_1=0
+```
+
+### `simulateXWithErrors()`
+
+This test runs the simulation 100 times at `p = 0.05`. It reads syndrome measurements to check for errors. In cases where no error is detected, we determine whether the final state can be mapped to a logical qubit state. If so, we also check that we get the correct logical value of `1`.
+
+The output here will vary from run to run, but here is a representative sample:
+
+```
+Errors: 19
+Measurements: 81
+Correct Measurements: 80
+```
+
+With 4 data qubits at `p = 0.05`, this error rate seems reasonable. We are able to map `100 - 19 = 81` logical states. The logical state measurements and errors don't necessarily have to add to `100` if there are certain types of overlapping errors. However, with `p = 0.05`, the probability of overlapping errors is small. However, we can see that on one occassion we did receive an overlapping error which, while it did map to a logical state, it incorrectly mapped to the `0` logical state.
+
 ## References
 
 [1] Fowler, Austin G, Mariantoni, Matteo, Martinis, John M, & Cleland, Andrew N. (2012). Surface codes: Towards practical large-scale quantum computation. Physical Review. A, Atomic, Molecular, and Optical Physics, 86(3), Physical review. A, Atomic, molecular, and optical physics, 2012-09-18, Vol.86 (3).

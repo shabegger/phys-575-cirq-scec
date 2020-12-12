@@ -27,7 +27,7 @@ The surface code is a quantum computing error correcting and stabilizing code. I
 
 In the surface code, qubits can be conceived of as existing on a 2 dimensional lattice and interacting with each of their 4 nearest neighbors (or 2 or 3 neighbors on the boundary), though this is not necessarily a physical requirement of the system. However, the code is well suited to architectures that do adhere to this geometry, such as many superconducting processors.
 
-Here, we implement a surface code on a grid, placing qubits at vertices, as in the below figure.
+Here, we implement a surface code on a grid, placing qubits at vertices, as in the below figure displaying a D = 3 code.
 
 ![D=3 Qubit Grid](./d_3_background.svg)
 

@@ -253,7 +253,7 @@ class LogicalQubit:
         self._circuit.append(measurements, cirq.InsertStrategy.NEW_THEN_INLINE)
 
         sim = cirq.Simulator()
-        return sim.run(self._circuit, repetitions=100)
+        return sim.run(self._circuit, repetitions=1)
 
     def print(self):
         print(self._circuit)

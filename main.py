@@ -4,7 +4,7 @@ logicalQubit = LogicalQubit(2, 0.05)
 logicalQubit.applyX()
 
 results = logicalQubit.run()
-print(results.measurements)
+print(results)
 # for i in results.final_state_vector:
 #     print(i)
 # logicalQubit.print()

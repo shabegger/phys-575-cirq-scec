@@ -45,6 +45,10 @@ The code is implemented to support an arbitrary distance D, where the logical qu
 
 While this code does support arbitrary distance D, the built-in Cirq simulator was capable of running the circuit with no more than distance `D = 2` on my home computer, so this is what was used for testing and demonstration.
 
+Certainly, a viable quantum computer will require more than one logical qubit. Additional qubits can be added to a large lattice by making "holes" where a measurement qubit used to be[1]. In this way, we add the additional degrees of freedom to support another logical qubit.
+
+Furthermore, we need to implement additional gates, such as Paulis or Hadamard, and at least one 2-qubit gate such that we can build a cNOT gate or otherwise fill out the requirements for a universal gate set. However, going beyond X and Z logical operations requires topological braiding, as discussed in class, which is beyond the scope of this project. In any case, we would not be able to test the implementation on a home PC with such paltry simulation capabilities.
+
 ## Demonstration
 
 The demonstration run by `main.py` is performed on a grid of qubits as the images below. The qubits are zero-index numbered starting from the top-left corner, leaving the boundary empty (as an indexing boundary condition simplification in the program).

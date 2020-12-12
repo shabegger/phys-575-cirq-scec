@@ -27,6 +27,8 @@ To run the demonstration, simply run `main.py`.
 
 ## Background
 
+For details on Cirq, check [here](https://quantumai.google/cirq).
+
 The surface code is a quantum computing error correcting and stabilizing code. It is based on the toric code, which was originally developed by Kitaev[1].
 
 In the surface code, qubits can be conceived of as existing on a 2 dimensional lattice and interacting with each of their 4 nearest neighbors (or 2 or 3 neighbors on the boundary), though this is not necessarily a physical requirement of the system. However, the code is well suited to architectures that do adhere to this geometry, such as many superconducting processors.
@@ -85,6 +87,8 @@ This function creates the D = 2 circuit with a few specialized details excluded 
 
 Here you can see the `(i, j)` indices used by Cirq on the left side. The measurements use a custom naming scheme using the `(x, y)` indices and prefixes `MX` and `MZ` to indicate syndrome measurements.
 
+One challenge posed when using Cirq is that it does not allow for classical control during simulation. However, the protocol for the surface code calls for resetting the measure qubits to the `0` state after measurement. In this code, I got around this by creating additional ancilla qubits for each syndrom measurement. After the measurement, the measure qubit is swapped with the ancilla to "reset" it. I wrote code to omit that step from the circuit diagram for clarity's sake.
+
 ### `simulateSimpleX()`
 
 This function simply runs the simple Cirq circuit from above. Qubits are initialized in the `0` state, so as expected the bit flip results in a measured `1` state:
@@ -120,6 +124,10 @@ Correct Measurements: 80
 ```
 
 With 4 data qubits at `p = 0.05`, this error rate seems reasonable. We are able to map `100 - 19 = 81` logical states. The logical state measurements and errors don't necessarily have to add to `100` if there are certain types of overlapping errors. However, with `p = 0.05`, the probability of overlapping errors is small. However, we can see that on one occassion we did receive an overlapping error which, while it did map to a logical state, it incorrectly mapped to the `0` logical state.
+
+In general, we should be able to correct errors that we find. However, since each measurement qubit is connected to multiple data qubits, this generally requires multiple syndrome measurements from separate measurement qubits to disambiguate the offending qubit. With `D = 2` we only have one syndrome measurement qubit for each data qubit, so this is not possible.
+
+Furthermore, the syndrome measurement step usually iterates several times. We would then generate a graph of syndrome measurements and use a minimum-weight perfect matching (MWPM) algorithm to determine what qubits errored and at what time in the computation. However, this is beyond the scope of this project.
 
 ## References
 

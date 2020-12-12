@@ -8,11 +8,22 @@ University of Washington - Autumn 2020
 
 ## Installation
 
-To install the required packages, run
+To install the required packages, run:
 
 ```bash
 $ pip install -r requirements.txt
 ```
+
+If you prefer to try installing the latest releases, there are only two direct dependencies:
+
+```bash
+$ pip install cirq
+$ pip install more-itertools
+```
+
+## Background
+
+![Qubit Grid](./drawing.svg)
 
 ## References
 

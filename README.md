@@ -127,7 +127,7 @@ With 4 data qubits at `p = 0.05`, this error rate seems reasonable. We are able 
 
 In general, we should be able to correct errors that we find. However, since each measurement qubit is connected to multiple data qubits, this generally requires multiple syndrome measurements from separate measurement qubits to disambiguate the offending qubit. With `D = 2` we only have one syndrome measurement qubit for each data qubit, so this is not possible.
 
-Furthermore, the syndrome measurement step usually iterates several times. We would then generate a graph of syndrome measurements and use a minimum-weight perfect matching (MWPM) algorithm to determine what qubits errored and at what time in the computation. However, this is beyond the scope of this project.
+Furthermore, the syndrome measurement step usually iterates several times. We would then generate a graph of syndrome measurements and use a minimum-weight perfect matching (MWPM) algorithm to determine what qubits errored and at what time in the computation[2]. However, this is beyond the scope of this project.
 
 ## References
 
